@@ -36,7 +36,7 @@
 2. **Run the Setup Script**: 
    - For an automated setup, run the provided Bash script:
      ```bash
-     ./setup.sh
+     ./setup-complete.sh
      ```
    - This script will:
      - Copy the `.env.example` file to `.env`.
