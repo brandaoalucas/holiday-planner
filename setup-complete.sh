@@ -1,14 +1,11 @@
 #!/bin/bash
 
-# Copia o .env.example para .env
 echo "Copying .env.example to .env..."
 cp backend/.env.example backend/.env
 
-# Set environment variables for backend
 export WWWUSER=$(id -u)
 export WWWGROUP=$(id -g)
 
-# Backend setup
 echo "Starting backend setup..."
 
 cd backend
@@ -40,18 +37,14 @@ echo "Creating Passport personal access client..."
 PASSPORT_OUTPUT=$(./vendor/bin/sail artisan passport:client --personal --name="frontend")
 sleep 1
 
-# Capturando o Client ID e Client Secret usando awk
 PASSPORT_CLIENT_ID=$(echo "$PASSPORT_OUTPUT" | awk '/Client ID/ {print $NF}')
 PASSPORT_CLIENT_SECRET=$(echo "$PASSPORT_OUTPUT" | awk '/Client secret/ {print $NF}')
 
-# Exibir para verificar
 echo "Client ID: $PASSPORT_CLIENT_ID"
 echo "Client Secret: $PASSPORT_CLIENT_SECRET"
 
-# Atualizando o .env com os novos valores
 ENV_FILE=".env"
 
-# Verificar se as variáveis já existem no .env e substituir ou adicionar se necessário
 if grep -q "PASSPORT_PERSONAL_ACCESS_CLIENT_ID" "$ENV_FILE"; then
   sed -i "s/^PASSPORT_PERSONAL_ACCESS_CLIENT_ID=.*/PASSPORT_PERSONAL_ACCESS_CLIENT_ID=$PASSPORT_CLIENT_ID/" "$ENV_FILE"
 else
