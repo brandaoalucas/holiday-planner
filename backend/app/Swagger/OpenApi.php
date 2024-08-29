@@ -16,5 +16,12 @@ use OpenApi\Annotations as OA;
  *         url="https://opensource.org/licenses/MIT"
  *     )
  * )
+ * 
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
  */
 class OpenApi {}
