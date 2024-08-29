@@ -73,6 +73,29 @@ sudo chmod -R 755 vendor
 echo "Generating encryption keys..."
 ./vendor/bin/sail artisan key:generate
 
+ALIAS_COMMAND="alias sail='sh \$([ -f sail ] && echo sail || echo vendor/bin/sail)'"
+
+add_alias() {
+    local file=$1
+    if ! grep -Fxq "$ALIAS_COMMAND" "$file"; then
+        echo "Adding 'sail' alias to $file..."
+        echo "$ALIAS_COMMAND" >> "$file"
+        source "$file"
+    else
+        echo "'sail' alias is already configured in $file."
+    fi
+}
+
+if [ -f ~/.bashrc ]; then
+    add_alias ~/.bashrc
+elif [ -f ~/.bash_profile ]; then
+    add_alias ~/.bash_profile
+elif [ -f ~/.zshrc ]; then
+    add_alias ~/.zshrc
+else
+    echo "No suitable profile file found for adding the alias."
+fi
+
 cd ..
 
 echo "Starting frontend setup..."
